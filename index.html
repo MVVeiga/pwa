@@ -55,9 +55,6 @@ window.addEventListener('beforeinstallprompt', (e) => {
 // 2. Handle the click event on your custom install button
 installBtn.addEventListener('click', async () => {
   console.log(1, deferredPrompt);
-  if (!deferredPrompt) {
-    return; // Safety check in case the event hasn't fired yet
-  }
   console.log(2);
   // Show the native browser install prompt dialog
   deferredPrompt.prompt();
