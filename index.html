@@ -42,6 +42,7 @@ const installBtn = document.getElementById('pwaInstallBtn');
 
 // 1. Listen for the browser's built-in PWA installation prompt
 window.addEventListener('beforeinstallprompt', (e) => {
+  console.log("beforeinstall");
   // Prevent the default mini-infobar from appearing on mobile
   e.preventDefault();
   
