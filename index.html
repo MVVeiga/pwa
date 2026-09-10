@@ -21,6 +21,8 @@
   </style>
 </head>
 <body>
+  <!-- The button is hidden initially -->
+<button id="pwaInstallBtn" style="display: none;">Install App</button>
 
   <h1>Hello, World! This is a PWA.</h1>
 
@@ -33,6 +35,52 @@
           .catch(err => console.log('Service Worker registration failed: ', err));
       });
     }
+
+/ Variable to store the installation event for later use
+let deferredPrompt; 
+const installBtn = document.getElementById('pwaInstallBtn');
+
+// 1. Listen for the browser's built-in PWA installation prompt
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent the default mini-infobar from appearing on mobile
+  e.preventDefault();
+  
+  // Save the event so we can trigger it later on a button click
+  deferredPrompt = e;
+  
+  // Unhide your custom install button to notify the user
+  installBtn.style.display = 'block';
+});
+
+// 2. Handle the click event on your custom install button
+installBtn.addEventListener('click', async () => {
+  if (!deferredPrompt) {
+    return; // Safety check in case the event hasn't fired yet
+  }
+  
+  // Show the native browser install prompt dialog
+  deferredPrompt.prompt();
+  
+  // Wait for the user to respond to the prompt (Accept or Dismiss)
+  const { outcome } = await deferredPrompt.userChoice;
+  console.log(`User response to install prompt: ${outcome}`);
+  
+  // Clean up: We can only use the prompt event once
+  deferredPrompt = null;
+  
+  // Hide the install button again since the action is complete
+  installBtn.style.display = 'none';
+});
+
+// 3. Optional: Hide the button if the app is already successfully installed
+window.addEventListener('appinstalled', (e) => {
+  console.log('PWA was successfully installed directly or via browser UI.');
+  installBtn.style.display = 'none';
+  deferredPrompt = null;
+});
+
+
+    
   </script>
 </body>
 </html>
