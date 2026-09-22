@@ -18,4 +18,12 @@
       "type": "image/png"
     }
   ]
+  "screenshots": [
+    {
+      "src": "icon512.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ]
 }
